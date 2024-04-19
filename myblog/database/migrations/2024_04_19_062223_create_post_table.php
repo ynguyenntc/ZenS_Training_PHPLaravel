@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('post', function (Blueprint $table) {
-            $table->id();
-            $table->integer('authorId')->unsigned();
-            $table->integer('parentId')->unsigned()->default(null);
+            $table->id('postId');
+            $table->unsignedBigInteger('authorId')->unsigned();
+            $table->unsignedBigInteger('parentId')->nullable()->default(null);
             $table->string('title');
             $table->string('slug')->unique();
             $table->string('summary')->nullable();
@@ -26,10 +26,20 @@ return new class extends Migration
             $table->dateTime('publishedAt')->nullable()->default(null);
             $table->text('content')->nullable();
             $table->string('picture')->nullable();
-            $table->string('tagSearch')->nullable();
-            $table->string('categoryType')->nullable();
 
+            // $table->foreign('authorId')->references('accountId')->on('account');
+            // $table->foreign('parentId')->references('postId')->on('post')
+            // ->onUpdate('cascade')->onDelete('set null');
+
+            $table->timestamps();
         });
+
+        // Schema::table('post', function (Blueprint $table) {
+        //     $table->foreign('authorId')->references('accountId')->on('account');
+        //     $table->foreign('parentId')->references('postId')->on('post')
+        //     ->onUpdate('cascade')->onDelete('set null');
+
+        // });
     }
 
     /**

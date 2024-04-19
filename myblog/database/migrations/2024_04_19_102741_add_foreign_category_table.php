@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('password_resets', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
+        Schema::table('category', function (Blueprint $table) {
+            $table->foreign('parentId')->references('categoryId')->on('category')
+            ->onUpdate('cascade')->onDelete('set null');
         });
     }
 
@@ -27,6 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('password_resets');
+        Schema::table('category', function (Blueprint $table) {
+            $table->dropForeign('category_parentid_foreign');
+        });
     }
 };
